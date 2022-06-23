@@ -1,4 +1,4 @@
-package trips.enums;
+package com.littlepay.trips.enums;
 
 public enum Stop {
 	ONE("Stop1"),

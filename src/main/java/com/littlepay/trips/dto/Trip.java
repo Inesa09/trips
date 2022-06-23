@@ -1,9 +1,9 @@
-package trips.dto;
+package com.littlepay.trips.dto;
 
 import java.time.LocalDateTime;
 
-import trips.enums.Stop;
-import trips.enums.TripStatus;
+import com.littlepay.trips.enums.Stop;
+import com.littlepay.trips.enums.TripStatus;
 
 public class Trip {
 

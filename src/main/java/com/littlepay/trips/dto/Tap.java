@@ -1,9 +1,9 @@
-package trips.dto;
+package com.littlepay.trips.dto;
 
 import java.time.LocalDateTime;
 
-import trips.enums.Stop;
-import trips.enums.TapType;
+import com.littlepay.trips.enums.Stop;
+import com.littlepay.trips.enums.TapType;
 
 public class Tap {
 
