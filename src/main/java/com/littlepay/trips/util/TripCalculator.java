@@ -1,5 +1,7 @@
 package com.littlepay.trips.util;
 
+import java.time.Duration;
+
 import com.littlepay.trips.dto.Trip;
 import com.littlepay.trips.enums.TripStatus;
 import lombok.AllArgsConstructor;
@@ -16,8 +18,9 @@ public class TripCalculator {
 		return trip;
 	}
 
-	private Integer calculateDuration() {
-		return null;
+	private Long calculateDuration() {
+		return trip.getFinished() == null ? null :
+				Duration.between(trip.getStarted(), trip.getFinished()).getSeconds();
 	}
 
 	private Double calculateCharge() {

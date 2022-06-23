@@ -15,7 +15,7 @@ public class Trip {
 
 	private LocalDateTime started;
 	private LocalDateTime finished;
-	private Integer duration;
+	private Long duration;
 	private Stop fromStop;
 	private Stop toStop;
 	private Double charged;
