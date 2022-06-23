@@ -13,8 +13,8 @@ public class TripCalculator {
 
 	public Trip calculateOutcome() {
 		trip.setDuration(calculateDuration());
-		trip.setCharged(calculateCharge());
 		trip.setStatus(calculateStatus());
+		trip.setCharged(calculateCharge());
 		return trip;
 	}
 
@@ -23,11 +23,17 @@ public class TripCalculator {
 				Duration.between(trip.getStarted(), trip.getFinished()).getSeconds();
 	}
 
-	private Double calculateCharge() {
-		return null;
+	private TripStatus calculateStatus() {
+		if (trip.getFinished() == null) {
+			return TripStatus.INCOMPLETE;
+		}
+		if (trip.getFromStop() == trip.getToStop()) {
+			return TripStatus.CANCELLED;
+		}
+		return TripStatus.COMPLETED;
 	}
 
-	private TripStatus calculateStatus() {
+	private Double calculateCharge() {
 		return null;
 	}
 }
