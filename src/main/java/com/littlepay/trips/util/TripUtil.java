@@ -4,26 +4,15 @@ import java.time.Duration;
 
 import com.littlepay.trips.dto.Trip;
 import com.littlepay.trips.enums.TripStatus;
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
-public class TripCalculator {
+public class TripUtil {
 
-	private Trip trip;
-
-	public Trip calculateOutcome() {
-		trip.setDuration(calculateDuration());
-		trip.setStatus(calculateStatus());
-		trip.setCharged(calculateCharge());
-		return trip;
-	}
-
-	private Long calculateDuration() {
+	public static Long calculateDuration(Trip trip) {
 		return trip.getFinished() == null ? null :
 				Duration.between(trip.getStarted(), trip.getFinished()).getSeconds();
 	}
 
-	private TripStatus calculateStatus() {
+	public static TripStatus calculateStatus(Trip trip) {
 		if (trip.getFinished() == null) {
 			return TripStatus.INCOMPLETE;
 		}
@@ -31,9 +20,5 @@ public class TripCalculator {
 			return TripStatus.CANCELLED;
 		}
 		return TripStatus.COMPLETED;
-	}
-
-	private Double calculateCharge() {
-		return null;
 	}
 }

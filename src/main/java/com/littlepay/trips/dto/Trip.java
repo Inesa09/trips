@@ -6,10 +6,8 @@ import com.littlepay.trips.enums.Stop;
 import com.littlepay.trips.enums.TripStatus;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @Builder
 public class Trip {
 

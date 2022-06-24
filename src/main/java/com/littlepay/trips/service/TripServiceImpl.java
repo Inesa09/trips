@@ -7,9 +7,12 @@ import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.littlepay.trips.calculator.TripCalculatorFactory;
 import com.littlepay.trips.dto.Tap;
 import com.littlepay.trips.dto.Trip;
-import com.littlepay.trips.util.TripCalculator;
+import com.littlepay.trips.calculator.IncompleteTripCalculator;
+import com.littlepay.trips.calculator.TripCalculator;
+import com.littlepay.trips.util.TripUtil;
 
 public class TripServiceImpl implements TripService {
 	
@@ -49,9 +52,14 @@ public class TripServiceImpl implements TripService {
 				.map(this::createTrip)
 				.forEach(trips::add);
 
+		trips.forEach(trip -> {
+			trip.setStatus(TripUtil.calculateStatus(trip));
+			trip.setDuration(TripUtil.calculateDuration(trip));
+		});
+
 		return trips.stream()
-				.map(TripCalculator::new)
-				.map(TripCalculator::calculateOutcome)
+				.map(TripCalculatorFactory::getCalculator)
+				.map(TripCalculator::getChargedTrip)
 				.collect(Collectors.toList());
 	}
 
@@ -68,6 +76,6 @@ public class TripServiceImpl implements TripService {
 	}
 
 	private Trip createTrip(Tap tapOn) {
-		return createTrip(tapOn, new Tap());
+		return createTrip(tapOn, Tap.builder().build());
 	}
 }
