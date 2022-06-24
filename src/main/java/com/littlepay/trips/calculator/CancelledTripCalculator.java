@@ -1,14 +1,12 @@
 package com.littlepay.trips.calculator;
 
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import org.springframework.stereotype.Component;
 
-@SuperBuilder
-@NoArgsConstructor
+@Component
 public class CancelledTripCalculator extends TripCalculator {
 
 	@Override
 	protected Double calculateCharge() {
-		return Double.NaN;
+		return 0.0;
 	}
 }

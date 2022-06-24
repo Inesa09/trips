@@ -1,22 +1,38 @@
 package com.littlepay.trips.calculator;
 
 import com.littlepay.trips.dto.Trip;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import com.littlepay.trips.enums.TripStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Component
 public class TripCalculatorFactory {
 
-	public static TripCalculator getCalculator(Trip trip) {
-		switch (trip.getStatus()) {
+	@Autowired
+	CancelledTripCalculator cancelledTripCalculator;
+
+	@Autowired
+	CompletedTripCalculator completedTripCalculator;
+
+	@Autowired
+	IncompleteTripCalculator incompleteTripCalculator;
+
+	public TripCalculator getCalculator(Trip trip) {
+		TripCalculator tripCalculator = getCalculatorByStatus(trip.getStatus());
+		tripCalculator.setTrip(trip);
+		return tripCalculator;
+	}
+
+	private TripCalculator getCalculatorByStatus(TripStatus tripStatus) {
+		switch (tripStatus) {
 			case COMPLETED:
-				return CompletedTripCalculator.builder().trip(trip).build();
+				return completedTripCalculator;
 			case INCOMPLETE:
-				return IncompleteTripCalculator.builder().trip(trip).build();
+				return incompleteTripCalculator;
 			case CANCELLED:
-				return CancelledTripCalculator.builder().trip(trip).build();
+				return cancelledTripCalculator;
 			default:
-				throw new IllegalStateException();
+				throw new IllegalStateException("There is an incorrect trip status!");
 		}
 	}
 }

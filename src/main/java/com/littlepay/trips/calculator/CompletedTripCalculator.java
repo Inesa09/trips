@@ -1,14 +1,17 @@
 package com.littlepay.trips.calculator;
 
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import java.util.Optional;
 
-@SuperBuilder
-@NoArgsConstructor
+import org.springframework.stereotype.Component;
+
+@Component
 public class CompletedTripCalculator extends TripCalculator {
 
 	@Override
 	protected Double calculateCharge() {
-		return tripCostConfig.getCostsMap().get(trip.getFromStop()).get(trip.getToStop());
+		return Optional.ofNullable(tripCostConfig.getCostsMap())
+				.map(costsMap -> costsMap.get(trip.getFromStop()))
+				.map(costsMapForStop -> costsMapForStop.get(trip.getToStop()))
+				.orElse(0.0);
 	}
 }

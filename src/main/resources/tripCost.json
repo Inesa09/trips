@@ -7,11 +7,11 @@
   {
     "from": "Stop1",
     "to": "Stop3",
-    "cost": 5.5
+    "cost": 7.3
   },
   {
     "from": "Stop2",
     "to": "Stop3",
-    "cost": 7.3
+    "cost": 5.5
   }
 ]

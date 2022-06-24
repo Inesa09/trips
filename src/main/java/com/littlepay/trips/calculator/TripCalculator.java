@@ -2,14 +2,10 @@ package com.littlepay.trips.calculator;
 
 import com.littlepay.trips.config.TripCostConfig;
 import com.littlepay.trips.dto.Trip;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-@SuperBuilder
-@AllArgsConstructor
-@NoArgsConstructor
+@Component
 public abstract class TripCalculator {
 
 	@Autowired
@@ -22,5 +18,9 @@ public abstract class TripCalculator {
 	public Trip getChargedTrip() {
 		trip.setCharged(calculateCharge());
 		return trip;
+	}
+
+	public void setTrip(Trip trip) {
+		this.trip = trip;
 	}
 }

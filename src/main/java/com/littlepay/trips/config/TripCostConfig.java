@@ -28,7 +28,7 @@ public class TripCostConfig {
 			try {
 				costs = Arrays.asList(new ObjectMapper().readValue(jsonConfig.getFile(), TripCost[].class));
 			} catch (IOException e) {
-				e.printStackTrace(); // TODO
+				throw new IllegalStateException("The cost config can not be read!");
 			}
 		}
 		return costs;
