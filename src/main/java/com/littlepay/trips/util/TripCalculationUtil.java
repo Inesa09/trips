@@ -4,8 +4,11 @@ import java.time.Duration;
 
 import com.littlepay.trips.dto.Trip;
 import com.littlepay.trips.enums.TripStatus;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-public class TripUtil {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class TripCalculationUtil {
 
 	public static Long calculateDuration(Trip trip) {
 		return trip.getFinished() == null ? null :

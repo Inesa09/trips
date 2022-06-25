@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TripCostConfig {
 
-	@Value("classpath:tripCost.json")
+	@Value("${resource.dir}/${trips.cost.filename}")
 	private Resource jsonConfig;
 
 	private List<TripCost> costs;

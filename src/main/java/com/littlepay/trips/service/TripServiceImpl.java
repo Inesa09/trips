@@ -11,7 +11,7 @@ import com.littlepay.trips.calculator.TripCalculatorFactory;
 import com.littlepay.trips.dto.Tap;
 import com.littlepay.trips.dto.Trip;
 import com.littlepay.trips.calculator.TripCalculator;
-import com.littlepay.trips.util.TripUtil;
+import com.littlepay.trips.util.TripCalculationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,8 +56,8 @@ public class TripServiceImpl implements TripService {
 
 		// calculate status and duration
 		trips.forEach(trip -> {
-			trip.setStatus(TripUtil.calculateStatus(trip));
-			trip.setDuration(TripUtil.calculateDuration(trip));
+			trip.setStatus(TripCalculationUtil.calculateStatus(trip));
+			trip.setDuration(TripCalculationUtil.calculateDuration(trip));
 		});
 
 		// calculate charge and sort

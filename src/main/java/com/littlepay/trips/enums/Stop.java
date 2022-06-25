@@ -1,5 +1,7 @@
 package com.littlepay.trips.enums;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Stop {
@@ -12,5 +14,12 @@ public enum Stop {
 
 	Stop(String stopId) {
 		this.stopId = stopId;
+	}
+
+	public static Stop fromStopId(String stopId) {
+		return Arrays.stream(Stop.values())
+				.filter(stop -> stop.stopId.equals(stopId))
+				.findFirst()
+				.orElse(null);
 	}
 }
