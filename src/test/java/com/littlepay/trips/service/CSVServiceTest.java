@@ -1,7 +1,6 @@
 package com.littlepay.trips.service;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -17,7 +16,6 @@ import com.littlepay.trips.enums.TripStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.ResourceUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,9 +31,12 @@ class CSVServiceTest {
 	CSVService csvService;
 
 	@Test
-	void testParseTaps() throws FileNotFoundException {
-		InputStream in = new FileInputStream(ResourceUtils.getFile("classpath:taps.csv"));
-		List<Tap> taps = csvService.parseTaps(in);
+	void testParseTaps() {
+		InputStream inputStream = new ByteArrayInputStream(
+				("ID, DateTimeUTC, TapType, StopId, CompanyId, BusID, PAN\n" +
+						"1, 22-01-2018 13:00:00, ON, Stop1, Company1, Bus37, 5500005555555559\n" +
+						"2, 22-01-2018 13:05:00, OFF, Stop2, Company1, Bus37, 5500005555555559").getBytes());
+		List<Tap> taps = csvService.parseTaps(inputStream);
 
 		assertThat(taps.size()).isEqualTo(2);
 		Tap tap = taps.get(0);
