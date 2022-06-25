@@ -22,4 +22,9 @@ public enum Stop {
 				.findFirst()
 				.orElse(null);
 	}
+
+	@Override
+	public String toString(){
+		return stopId;
+	}
 }
