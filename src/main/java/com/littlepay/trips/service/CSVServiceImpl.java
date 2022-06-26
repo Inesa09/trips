@@ -16,6 +16,7 @@ import com.littlepay.trips.config.TripInfo;
 import com.littlepay.trips.dto.Trip;
 import com.littlepay.trips.enums.Stop;
 import com.littlepay.trips.enums.TapType;
+import com.sun.deploy.util.StringUtils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
@@ -68,6 +69,9 @@ public class CSVServiceImpl implements CSVService {
 	}
 
 	private String formatDateTime(LocalDateTime dateTime) {
+		if (dateTime == null) {
+			return "";
+		}
 		return DATE_TIME_FORMATTER.format(dateTime);
 	}
 

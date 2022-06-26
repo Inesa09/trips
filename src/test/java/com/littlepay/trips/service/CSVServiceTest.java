@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,7 +52,7 @@ class CSVServiceTest {
 
 	@Test
 	void testWriteTrips() {
-		Trip trip = Trip.builder()
+		Trip trip1 = Trip.builder()
 				.started(START_DATE)
 				.finished(END_DATE)
 				.duration(300L)
@@ -64,11 +65,22 @@ class CSVServiceTest {
 				.status(TripStatus.COMPLETED)
 				.build();
 
+		Trip trip2 = Trip.builder()
+				.started(START_DATE)
+				.fromStop(Stop.ONE)
+				.charged(3.25)
+				.companyId(COMPANY)
+				.busId(BUS)
+				.pan(PAN)
+				.status(TripStatus.INCOMPLETE)
+				.build();
+
 		Writer stringWriter = new StringWriter();
-		csvService.writeTrips(stringWriter, Collections.singletonList(trip));
+		csvService.writeTrips(stringWriter, Arrays.asList(trip1, trip2));
 
 		assertThat(stringWriter).hasToString(
 				"Started, Finished, DurationSecs, FromStopId, ToStopId, ChargeAmount, CompanyId, BusID, PAN, Status\n" +
-				"22-01-2018 13:00:00, 22-01-2018 13:05:00, 300, Stop1, Stop2, $3.25, Company1, Bus37, 5500005555555559, COMPLETED\n");
+						"22-01-2018 13:00:00, 22-01-2018 13:05:00, 300, Stop1, Stop2, $3.25, Company1, Bus37, 5500005555555559, COMPLETED\n" +
+						"22-01-2018 13:00:00, , , Stop1, , $3.25, Company1, Bus37, 5500005555555559, INCOMPLETE\n");
 	}
 }
