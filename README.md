@@ -1,6 +1,17 @@
 # Taps-to-Trips app
 Spring Boot web application that provides API for Trips calculation based on Taps data.
 
+###### Table of Contents
+- [Properties description](#properties-description)
+- [App requirements](#app-requirements)
+- [Available endpoints](#available-endpoints)
+- [How to run](#how-to-run)
+
+
+- [Calculation algorithm](#calculation-algorithm)
+  - [Status calculation](#status-calculation)
+  - [Charge calculation](#charge-calculation)
+  - [Assumptions](#assumptions)
 
 ### Properties description
 There are several properties for app customization in
@@ -26,7 +37,7 @@ Note: must be in `csv` format.
 Default: `trips.csv`
 
 
-### Requirements
+### App requirements
 ###### trips cost
 To make app work properly you must:
 
@@ -81,3 +92,38 @@ Returns a [file](#trips-file) with calculated Trips data.
     Content-Disposition: form-data; name="taps"  
     Content-Type: text/csv; charset=UTF-8
 
+### How to run
+The app can be either run from IDE on localhost as Spring Boot project or built as jar and deployed on server.  
+The calculation is performed by sending one of the described [HTTP requests](#available-endpoints).
+
+## Calculation algorithm
+
+After reading Taps records from the file they are sorted by date.  
+Then each record is iterated. If it is:
+- Tap-ON - it is put in the stack.
+- Tap-OFF - the last record in stack is retrieved and converted altogether with the current record to COMPLETED trip.  
+
+When iteration is finished, there are only Taps of INCOMPLETE trips in the stack. So, they are created.  
+Then for each Trip status, duration and charge are calculated.  
+Finally, trips are sorted by date.
+
+### Status calculation
+
+- If Trip does not have Finished datetime, it is INCOMPLETE.
+- If Trip's FromStop is equal to Trip's ToStop, it is CANCELLED.
+
+### Charge calculation
+
+Charges from the [trips cost configuration file](#trips-cost) are parsed into a Map.  
+The charge for COMPLETED trip between two stops is retrieved by stopIDs.  
+The charge for INCOMPLETE trip is calculated by finding the max value by fromStopID.
+
+### Assumptions
+
+- `CompanyID, BusID, PAN ` are always equal for matched Tap-ON and Tap-OFF records.
+- If a passenger forgot to make a Tap-OFF, their next Tap would be a Tap-ON, assuming that the system recognises 
+  Tap-ONs and Tap-OFFs.
+- For INCOMPLETE trips the following data is absent from the output result:
+  - Finished
+  - ToStopId
+  - DurationSecs
